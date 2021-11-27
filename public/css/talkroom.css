@@ -1,0 +1,24 @@
+　　.test{
+　　    font-size: 40px;   
+　　    
+　　}  
+　　
+　　.body_comment{
+        position:fixed;
+        bottom:0px;
+        left: 0px;
+        width: 100%;
+    }
+        
+    .comment_input{
+        bottom: 0px;
+        width: 100%;
+    }
+    
+    .send_comment{
+        position:fixed;
+        right: 0px;
+        bottom:0px;
+        height: 50px;
+        width: 10%;
+    }

@@ -11,6 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/talkroom', 'MLBTalkController@talkroom')->middleware('auth');
+    Auth::routes();
+
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/talkroom', 'MLBTalkController@talkroom');
+    Route::get('/user_setting', 'User_settingController@user_setting');
+    Route::post('/posts', 'MLBTalkController@store');
+    Route::post('/posts_user_setting', 'User_settingontroller@store');
+    // コメントリンクから削除確認画面へ
+    Route::delete('/delete_confirm', 'MLBTalkController@delete');
 });
