@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class User_setting extends Model
+class Profile extends Model
 {
     protected $table = 'users';
     
     protected $fillable = [
     'nickname',
-    'selfintroduction',
+    'self_introduction',
     'team'
 ];
 }

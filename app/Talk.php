@@ -4,12 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MLBTalk extends Model
+class Talk extends Model
 {
-    protected $table = 'mlbtalks';
+    protected $table = 'talkrooms';
     
     protected $fillable = [
-    'body',
     'title',
 ];
 }

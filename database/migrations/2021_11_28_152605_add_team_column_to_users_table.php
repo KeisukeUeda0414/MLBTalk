@@ -4,22 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserSettingsTable extends Migration
+class AddTeamColumnToUsersTable extends Migration
 {
     /**
      * Run the migrations.
      *
      * @return void
      */
-   
     public function up()
     {
-    Schema::table('user_settings', function (Blueprint $table) {
-        $table->string('image', 100)->nullable();
-        $table->string('self_introduction', 10)->nullable();
-        
-    });
-    
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('nickname',15);
+            $table->string('self_introduction',100)->nullable();
+            $table->string('team',20);
+        });
+
     }
 
     /**
@@ -29,6 +28,7 @@ class CreateUserSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_settings');
+        
+        //
     }
 }

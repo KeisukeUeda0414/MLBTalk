@@ -12,7 +12,7 @@
         
     </head>
     <body>
-        <h1>トークルーム</h1>
+        <h1>{{$talkrooms->title}}</h1>
             @method('DELETE')
         <!--チャット欄-->
         <div class='posts'>
@@ -20,14 +20,13 @@
             <div class='post'>
                 <!--コメント内容-->
                 <div class='body'><a href="delete_confirm">{{ $post->body }}</a></div>
-                <div class="test">テスト</div>
                 <!--いいね-->
-                <div class="good">いいね</div>
+                <div class="good">👍</div>
                 <tr>
                 <!--ユーザー名-->
-                <td class="user_name">{{Auth::user()->name}}</td>
+                <!--<td class="user_name">{{Auth::user()->name}}</td>-->
                 <!--投稿時間-->
-                <td class="post_time">{{$post->created_at}}</td>
+                <!--<td class="post_time">{{$post->created_at}}</td>-->
                 </tr>
                 <!--空行-->
                 <p></p>
