@@ -14,15 +14,22 @@ Auth::routes();
  
 Route::group(['middleware' => 'auth'], function(){
     
-    Route::get('/talkroom', 'TalkController@talkroom');
-    Route::post('/posts', 'TalkController@store');
-    Route::post('/profile_setting_finished', 'ProfileController@store');
-    // コメントリンクから削除確認画面へ
-    // Route::delete('/delete_confirm', 'MLBTalkController@delete');
-    Route::get('/home', 'TalkController@talk')->name('home');
-    Route::get('/profile_setting', 'ProfileController@profile_set');
-    Route::get('/talkroom_making', 'TalkController@roommake');
-    Route::get('talkroom/{talkroom}', 'TalkController@talkroom');
+    // Route::get('/talkroom', 'TalkController@talkroom');
+    Route::post('/store', 'MessageController@store');
     
-    Route::post('/talkroom_making_finished', 'TalkController@store_roomtitle');
+    // コメントリンクから削除確認画面へ
+    Route::get('/home', 'TalkController@talk')->name('home');
+    Route::get('/user_setting', 'UserController@user_set');
+    Route::get('/talkroom_making', 'TalkController@roommake');
+    Route::get('/talkroom/{talk}', 'TalkController@show');
+    // Route::post('/talkroom_making_finished', 'TalkController@store_roomtitle');
+    Route::post('/user_setting_finished', 'PostsController@create');
+    //画像保存
+    Route::post('/image', 'PostsController@create');
+    
 });
+
+
+
+//test
+    Route::get('/', 'MessageController@create');

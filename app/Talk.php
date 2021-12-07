@@ -6,9 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Talk extends Model
 {
-    protected $table = 'talkrooms';
-    
+   
     protected $fillable = [
-    'title',
-];
+        'title',
+        'body',
+        'category_id'
+    ];
+
+    public function getRouteKeyName(){
+        return 'id';
+    }
+
+    public function messages()   
+    {
+        return $this->hasMany('App\Message');  
+    }
+    
+    // トークルーム別にメッセージを振り分け
+    public function getByTalk(int $limit_count = 10)
+    {
+        return $this->messages()->with('talk')->orderBy('updated_at', 'DESC')->paginate($limit_count);
+    }
 }

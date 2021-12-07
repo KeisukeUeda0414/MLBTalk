@@ -4,39 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Talk;
+use App\Message;
 
 class TalkController extends Controller
 {
     //ホーム画面への遷移
-    public function talk(Talk $table)
+    public function talk(Talk $talk)
     {
-        return view('home')->with(['talkrooms' => $table->get()]);
+        return view('home')->with(['talkrooms' => $talk->get()]);
     }
     
     //トーク作成画面への遷移
-    public function roommake(Talk $table)
+    public function roommake(Talk $talk)
     {
-        return view('talkroom_making')->with(['talkrooms' => $table->get()]);
+       
+        return view('talks.create')->with(['talkrooms' => $talk->get()]);
     }
+    
+    
+    
     
     //トークルームへ遷移
-    public function talkroom(Talk $table)
+    public function show(Talk $talk )
     {
-        return view('talkroom_show')->with(['talkrooms' => $table->first()]);
-    }
+        // return view('talks.show')->with(['talks' => $talk->getByTalk()]);
+        
+        return view('talks.show')->with(['talk' => $talk,'messages' => $talk->getByTalk()]);
+        
+        }
+    
+   
     
     
-    public function user_setting(User_setting $post)
-    {
-        return view('user_setting')->with(['posts' => $post->get()]);
-    }
     
-    public function store(Request $request, Talk $post)
-    {
-        $input = $request['post'];
-        $post->fill($input)->save();
-        return redirect('/talkroom');
-    }
+    
+    
+    
     
     public function store_roomtitle(Request $request, Talk $post)
     {
