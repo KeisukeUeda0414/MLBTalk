@@ -34,8 +34,7 @@ class TalkController extends Controller
         }
     
    
-    
-    
+
     
     
     
@@ -48,10 +47,10 @@ class TalkController extends Controller
         return redirect('/home');
     }
     
-    public function delete(Talk $post)
+    public function delete(Talk $talk)
     {
-        $post->delete();
-        return redirect('/talkroom');
+        $talk->delete();
+        return redirect('/home');
     }
 
 }

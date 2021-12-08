@@ -18,14 +18,18 @@
             {{$talk->title}}<p></p>
         </h1>
         
-        @foreach($messages as $talk)
-            {{$talk->body}}<p></p>
+        @foreach($messages as $message)
+            {{$message->body}}<p></p>
         @endforeach
         
         
         
       
-        
+        <form action="/talkroom/{{ $talk->id }}" id="form_{{ $talk->id }}" method="post" style="display:inline">
+  　　　　  @csrf
+  　　　　  @method('DELETE')
+  　　　　　　　　  <button type="submit">delete</button> 
+　　　　</form>
         
         
         

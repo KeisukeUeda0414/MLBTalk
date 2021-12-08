@@ -33,3 +33,4 @@ Route::group(['middleware' => 'auth'], function(){
 
 //test
     Route::get('/', 'MessageController@create');
+    Route::delete('/talkroom/{talk}', 'TalkController@delete');
