@@ -22,7 +22,16 @@ public function store(Request $request, Message $post,Talk $talk)
         // $input = array_merge($input,array('talk_id'=>$ido->id)); 
        
         $post->fill($input)->save();
+        
+        // 前の画面に戻る
+        return back();
+    }
+    
+    public function delete(Message $message)
+    {
+        $message->delete();
         return redirect('/home');
+        
     }
     
     

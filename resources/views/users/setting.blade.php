@@ -36,10 +36,21 @@
                         <option value="サンプル1" name=post[team]>{{$talkroom}}</option>
                     @endforeach
                    
+                 
                 </select>
             </div>
            
-            
+              <div class="image_store">
+                @section('content')
+                        <form action="/image" method="post" enctype="multipart/form-data">
+                        <!-- アップロードフォームの作成 -->
+                        <input type="file" name="image">
+                        {{ csrf_field() }}
+                        <input type="submit" value="アップロード">
+                    </form>
+                @endsection
+                </div>
+      
             <!--送信ボタン-->
             <input class="send_comment" type="submit" value="送信"/>
         </form>

@@ -6,6 +6,8 @@
     <head>
         <meta charset="utf-8">
         <title>Home</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
     </head>
     <body>
         
@@ -14,19 +16,20 @@
         
         
         <div>
-            <a href='/talkroom_making'>トークルームを作成する</a>
+            <a class='fs-3' href='/talkroom_making'>トークルームを作成する</a>
         </div>
         <div>
             [<a href='/user_setting'>ユーザー詳細画面へ</a>]
-            <p>最新トーク</p>
+            <p class='fs-3'>最新トーク</p>
                 @foreach ($talkrooms as $talkroom)
-                    <a href='talkroom/{{$talkroom->id}}'>{{$talkroom->title}}</a><p></p>
+                    <a class='fs-3' href='talkroom/{{$talkroom->id}}'>{{$talkroom->title}}</a><p></p>
                 @endforeach
         </div>
      
-       
+           
         
-        
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+   
     </body>
 </html>
 @endsection

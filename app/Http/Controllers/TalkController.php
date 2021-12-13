@@ -34,15 +34,10 @@ class TalkController extends Controller
         }
     
    
-
-    
-    
-    
-    
     
     public function store_roomtitle(Request $request, Talk $post)
     {
-        $input = $request['post'];
+        $input = $request['talkroom'];
         $post->fill($input)->save();
         return redirect('/home');
     }

@@ -25,6 +25,6 @@ class Talk extends Model
     // トークルーム別にメッセージを振り分け
     public function getByTalk(int $limit_count = 10)
     {
-        return $this->messages()->with('talk')->orderBy('updated_at', 'DESC')->paginate($limit_count);
+        return $this->messages()->with('talk')->orderBy('updated_at', 'ASC')->paginate($limit_count);
     }
 }

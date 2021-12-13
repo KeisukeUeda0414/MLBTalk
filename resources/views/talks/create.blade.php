@@ -2,6 +2,7 @@
 
 @section('content')
 
+<!--トークルーム作成画面-->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -18,10 +19,10 @@
             @csrf
             <!--トークルーム名入力-->
             <div class="body_comment">
-                <textarea class="comment_input" name="post[title]" placeholder="トークルーム名を入力"></textarea>
+                <textarea class="comment_input" name="talkroom[title]" placeholder="トークルーム名を入力"></textarea>
             </div>
             <!--送信ボタン-->
-            <input class="send_comment" type="submit" value="送信"/>
+            <input class="send_comment" type="submit" value="作成"/>
         </form>
         
         <script type="text/javascript" src="/js/talkroom.js"></script>
