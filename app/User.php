@@ -39,4 +39,9 @@ class User extends Authenticatable
     
     // protected $teams = 'teams';
    
+    //   いいね機能
+   public function likes()
+    {
+        return $this->belongsToMany('App\Message')->withTimestamps();
+    }
 }

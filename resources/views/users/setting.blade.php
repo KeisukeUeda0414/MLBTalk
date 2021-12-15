@@ -13,19 +13,21 @@
     </head>
     
     <body>
-        <h1>ユーザー詳細画面</h1>
+        <h1>ユーザー詳細設定</h1>
         
         
        
 　　　　<form action="/user_setting_finished" method="POST">
             @csrf
-            <!--コメント入力-->
+            <!--ニックネーム入力-->
             <div class="body_comment">
-                <textarea class="comment_input" name="post[nickname]" placeholder="ニックネームを入力"></textarea>
+                <p>ニックネーム</p>
+                <textarea class="comment_input" name="post[nickname]" placeholder="ニックネームを入力"></textarea><p></p>
             </div>
             <!--自己紹介入力-->
             <div class="body_comment">
-                <textarea class="comment_input" name="post[selfintroduction]" placeholder="自己紹介を入力"></textarea>
+                <p>自己紹介</p>
+                <textarea class="comment_input" name="post[selfintroduction]" placeholder="自己紹介を入力"></textarea><p></p>
             </div>
             <!--お気に入りチーム入力-->
             <div class="body_comment">
@@ -39,21 +41,17 @@
                  
                 </select>
             </div>
+            
+            
+            
            
-              <div class="image_store">
-                @section('content')
-                        <form action="/image" method="post" enctype="multipart/form-data">
-                        <!-- アップロードフォームの作成 -->
-                        <input type="file" name="image">
-                        {{ csrf_field() }}
-                        <input type="submit" value="アップロード">
-                    </form>
-                @endsection
-                </div>
+              
       
             <!--送信ボタン-->
-            <input class="send_comment" type="submit" value="送信"/>
+            <input class="send_profile" type="submit" value="送信"/>
         </form>
+        
+        
         
         
         <script type="text/javascript" src="/js/talkroom.js"></script>

@@ -30,10 +30,13 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/image', 'PostsController@create');
     
 });
-
+//   いいね
+   Route::post('posts/{post}/favorites', 'LikeController@store')->name('favorites');
+   Route::post('posts/{post}/unfavorites', 'LikeController@destroy')->name('unfavorites');
 
 
 //test
     Route::get('/', 'MessageController@create');
     Route::delete('/talkroom/{talk}', 'TalkController@delete');
     Route::delete('/talkroom/message/{message}', 'MessageController@delete');
+    

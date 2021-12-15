@@ -16,12 +16,12 @@ class UserController extends Controller
         return view('users.setting')->with(['prefectures' => $teams]);
     }
     
-    public function store(Request $request, User $post)
+    public function store(Request $request, User $profile)
     {
        
         
         $input = $request['post'];
-        $post->fill($input)->save();
+        $profile->fill($input)->save();
         return redirect('/home');
     }
     

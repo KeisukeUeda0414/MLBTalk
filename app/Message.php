@@ -23,5 +23,10 @@ class Message extends Model
     //likesテーブルとのリレーション
     return $this->belongsToMany('App\Like');
     }
+    
+  public function users()
+    {
+        return $this->belongsToMany('App\User')->withTimestamps();
+    }
 
 }

@@ -12,13 +12,66 @@
     </head>
     <body>
        <!--ルームタイトル-->
-         <h1 class="title">
+        <h1 class="text-center sticky-top">
             {{$talk->title}}<p></p>
+            
+            
+        <!--トークルームを削除-->
+            <div class="text-end">
+                <form action="/talkroom/{{ $talk->id }}" id="form_{{ $talk->id }}" method="post" style="display:inline">
+                    @csrf
+                    @method('DELETE')
+                    
+                    
+                    
+                    <!-- Button trigger modal -->
+                    <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        トークルームを削除
+                    </button>
+        
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    本当に削除しますか？
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                                    <button type="button" class="btn btn-primary">削除する</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
         </h1>
+        
         <!--メッセージ-->
         @foreach($messages as $message)
-        {{$message->body}}
-        <i class="fas fa-thumbs-up"></i>
+            <div class="fs-2">{{$message->body}}</div>
+        <!--いいね-->
+        @if($message->users()->where('user_id', Auth::id())->exists())
+            <div class="col-md-3">
+                <form action="{{ route('unfavorites', $message) }}" method="POST">
+                @csrf
+                    <input type="submit" value="&#xf004.{{ $message->users()->count() }}" class="fas btn btn-danger">
+                </form>
+            </div>
+        @else
+            <div class="col-md-3">
+                <form action="{{ route('favorites', $message) }}" method="POST">
+                @csrf
+                    <input type="submit" value="&#xf004.{{ $message->users()->count() }}" class="fas btn btn-success">
+                </form>
+            </div>
+        @endif
+        
         <p></p>
         @endforeach
        
@@ -38,36 +91,10 @@
            
         </form>
         
-        <!--トークルームを削除-->
-        <form action="/talkroom/{{ $talk->id }}" id="form_{{ $talk->id }}" method="post" style="display:inline">
-            @csrf
-            @method('DELETE')
-            
-            <!-- Button trigger modal -->
-            <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                トークルームを削除
-            </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                本当に削除しますか？
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-            <button type="button" class="btn btn-primary">削除する</button>
-            </div>
-            </div>
-            </div>
-            </div>
-            
-        </form>
+        
+        
+        
+        
         
         
        

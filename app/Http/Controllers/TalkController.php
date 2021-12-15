@@ -35,10 +35,10 @@ class TalkController extends Controller
     
    
     
-    public function store_roomtitle(Request $request, Talk $post)
+    public function store_roomtitle(Request $request, Talk $talk_title)
     {
         $input = $request['talkroom'];
-        $post->fill($input)->save();
+        $talk_title->fill($input)->save();
         return redirect('/home');
     }
     
