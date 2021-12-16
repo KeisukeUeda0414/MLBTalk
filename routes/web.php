@@ -30,10 +30,13 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/image', 'PostsController@create');
     
 });
-//   いいね
-   Route::post('posts/{post}/favorites', 'LikeController@store')->name('favorites');
-   Route::post('posts/{post}/unfavorites', 'LikeController@destroy')->name('unfavorites');
-
+    //いいね
+    Route::post('posts/{post}/favorites', 'LikeController@store')->name('favorites');
+    Route::post('posts/{post}/unfavorites', 'LikeController@destroy')->name('unfavorites');
+   
+//   トークルーム検索
+    Route::get('/talk/search', 'TalkController@search');
+    Route::get('/talk/talkroom/{talk}', 'TalkController@show');
 
 //test
     Route::get('/', 'MessageController@create');
