@@ -14,18 +14,18 @@
        <!--ルームタイトル-->
         <h1 class="text-center sticky-top">
             {{$talk->title}}<p></p>
-            
+        </h1>   
             
         <!--トークルームを削除-->
-            <div class="text-end">
-                <form action="/talkroom/{{ $talk->id }}" id="form_{{ $talk->id }}" method="post" style="display:inline">
+        <div class="text-end">
+                <form action="/talks/{{ $talk->id }}" id="form_{{ $talk->id }}" method="post" style="display:inline">
                     @csrf
                     @method('DELETE')
                     
                     
                     
                     <!-- Button trigger modal -->
-                    <button type="submit" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         トークルームを削除
                     </button>
         
@@ -42,53 +42,59 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                                    <button type="button" class="btn btn-primary">削除する</button>
+                                    <button type="submit" class="btn btn-primary">削除する</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                 </form>
-            </div>
-        </h1>
+        </div>    
+        
         
         <!--メッセージ-->
         @foreach($messages as $message)
-            <div class="fs-2">{{$message->body}}</div>
-        <!--いいね-->
-        @if($message->users()->where('user_id', Auth::id())->exists())
-            <div class="col-md-3">
-                <form action="{{ route('unfavorites', $message) }}" method="POST">
-                @csrf
-                    <input type="submit" value="&#xf004.{{ $message->users()->count() }}" class="fas btn btn-danger">
-                </form>
-            </div>
-        @else
-            <div class="col-md-3">
-                <form action="{{ route('favorites', $message) }}" method="POST">
-                @csrf
-                    <input type="submit" value="&#xf004.{{ $message->users()->count() }}" class="fas btn btn-success">
-                </form>
-            </div>
-        @endif
+            
+            <a class="fs-2" href='/messages/{{$message->id}}'>{{$message->body}}</a>
+            
+            <!--メッセージ投稿者表示-->
+            {{ $message->user->profile->nickname}}
+            
+            
+            <!--いいね-->
+            @if($message->likes()->where('user_id', Auth::id())->exists())
+                <div class="col-md-3">
+                    <form action="{{ route('unfavorites', $message) }}" method="POST">
+                    @csrf
+                        <input type="submit" value="&#xf004.{{ $message->likes()->count() }}" class="fas btn btn-danger">
+                    </form>
+                </div>
+            @else
+                <div class="col-md-3">
+                    <form action="{{ route('favorites', $message) }}" method="POST">
+                    @csrf
+                        <input type="submit" value="&#xf004.{{ $message->likes()->count() }}" class="fas btn btn-success">
+                    </form>
+                </div>
+            @endif
         
         <p></p>
         @endforeach
        
+       
+       
         <!--メッセージ入力＆送信-->
-        <form action="/store" method="POST">
+        <form action="/messages/{{$talk->id}}" method="POST">
             @csrf
             <!--コメント入力-->
             <div class="form-floating">
-                <textarea class="form-control fixed-bottom" id="floatingTextarea2" style="height: 100px" name="post[body]" placeholder="コメントを入力"></textarea>
+                <textarea class="form-control fixed-bottom" id="floatingTextarea2" style="height: 100px" name="message[body]" placeholder="コメントを入力"></textarea>
                  
             </div>
-         
-            <!--トークルームidを保存（hiddenを使用）-->
-            <input type="hidden" name="post[talk_id]" value="{{$talk->id}}">
             <!--送信ボタン-->
             <input  class="btn btn-success fixed-bottom btn-lg" type="submit" value="送信"/>
            
+            
         </form>
         
         

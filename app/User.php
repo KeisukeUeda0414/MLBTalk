@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'nickname', 'selfintroduction','team', 
+        'name', 'email', 'password',  
     ];
 
     /**
@@ -42,6 +42,17 @@ class User extends Authenticatable
     //   いいね機能
    public function likes()
     {
-        return $this->belongsToMany('App\Message')->withTimestamps();
+        return $this->belongsToMany('App\Message','likes')->withTimestamps();
+    }
+    
+    // usersとのリレーション
+    public function profile()
+    {
+        return $this->hasOne('App\Profile');
+    }
+    
+    public function messages()   
+    {
+        return $this->hasMany('App\Message');  
     }
 }

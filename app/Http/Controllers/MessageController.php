@@ -8,31 +8,23 @@ use App\Message;
 
 class MessageController extends Controller
 {
-    public function create(Talk $talk)
-{
-    return view('talkroom')->with(['talks' => $talk->get()]);
-    
-}
-
-public function store(Request $request, Message $post,Talk $talk)
+    public function show(Message $message)
     {
-      
-        $input = $request['post'];
-        // $ido=$talk->get();
-        // $input = array_merge($input,array('talk_id'=>$ido->id)); 
-       
-        $post->fill($input)->save();
-        
-        // 前の画面に戻る
-        return back();
+        return view('messages.show')->with(['messages' => $message]);
     }
     
-    public function delete(Message $message)
+    public function store(Request $request, Message $message,Talk $talk)
+    {
+        $input = $request['message'];
+        $input += ['user_id' => $request->user()->id]; 
+        $input += ['talk_id' => $talk->id]; 
+        $message->fill($input)->save();
+        return redirect('/talks/'.$talk->id);
+    }
+        
+    public function delete(Message $message,Talk $talk)
     {
         $message->delete();
-        return redirect('/home');
-        
+        return view('talks.show')->with(['messages' => $message,'$talk' => $talk]);
     }
-    
-    
 }

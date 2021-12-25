@@ -5,39 +5,33 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Talk;
 use App\Message;
+use App\Profile;
+use Illuminate\Support\Facades\Auth;
 
 class TalkController extends Controller
 {
-    //ホーム画面への遷移
-    public function talk(Talk $talk)
-    {
-        return view('home')->with(['talkrooms' => $talk->get()]);
-    }
+    
     
     //トーク作成画面への遷移
-    public function roommake(Talk $talk)
+    public function create(Talk $talk)
     {
-       
         return view('talks.create')->with(['talkrooms' => $talk->get()]);
     }
     
-    
-    
-    
     //トークルームへ遷移
-    public function show(Talk $talk )
-    {
-        // return view('talks.show')->with(['talks' => $talk->getByTalk()]);
-        
-        return view('talks.show')->with(['talk' => $talk,'messages' => $talk->getByTalk()]);
-        
-        }
+    public function show(Request $request, Talk $talk,Profile $profile)
+    {   
+      
+   
+        return view('talks.show')->with(['talk' => $talk, 'messages' => $talk->getByTalk()]);
+    }
     
    
     
-    public function store_roomtitle(Request $request, Talk $talk_title)
+    public function store(Request $request, Talk $talk_title)
     {
         $input = $request['talkroom'];
+        $input += ['user_id' => $request->user()->id]; 
         $talk_title->fill($input)->save();
         return redirect('/home');
     }
@@ -67,10 +61,9 @@ class TalkController extends Controller
             // 全角スペースを半角に変換
             $spaceConversion = mb_convert_kana($search, 's');
 
-            // 単語を半角スペースで区切り、配列にする（例："山田 翔" → ["山田", "翔"]）
+            // 単語を半角スペースで区切り、配列にする（例："大谷 エンゼルス" → ["大谷", "エンゼルス"]）
             $wordArraySearched = preg_split('/[\s,]+/', $spaceConversion, -1, PREG_SPLIT_NO_EMPTY);
-
-
+            
             // 単語をループで回し、ユーザーネームと部分一致するものがあれば、$queryとして保持される
             foreach($wordArraySearched as $value) {
                 $query->where('title', 'like', '%'.$value.'%');

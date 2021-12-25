@@ -10,19 +10,17 @@ use Auth;
 class LikeController extends Controller
 {
     
-    public function store(Message $post)
+    public function store(Message $message)
     {
-        $post->users()->attach(Auth::id());
-
+        $message->users()->attach(Auth::id());
         return back();
     }
 
 
 
-public function destroy(Message $post)
+public function destroy(Message $message)
     {
-        $post->users()->detach(Auth::id());
-
+        $message->users()->detach(Auth::id());
         return back();
     }
     

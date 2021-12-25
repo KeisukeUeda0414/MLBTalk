@@ -15,7 +15,7 @@
     
     <body>
         <h1>トークルーム作成画面</h1>
-        <form action="/talkroom_making_finished" method="POST">
+        <form action="/talks" method="POST">
             @csrf
             <!--トークルーム名入力-->
             <div class="body_comment">

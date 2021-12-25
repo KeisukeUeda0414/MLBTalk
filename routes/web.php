@@ -14,32 +14,41 @@ Auth::routes();
  
 Route::group(['middleware' => 'auth'], function(){
     
-    // Route::get('/talkroom', 'TalkController@talkroom');
-    // メッセージの保存　
-    Route::post('/store', 'MessageController@store');
+    Route::get('/home', 'HomeController@talk')->name('home');
     
-    // コメントリンクから削除確認画面へ
-    Route::get('/home', 'TalkController@talk')->name('home');
-    Route::get('/user_setting', 'UserController@user_set');
-    Route::get('/talkroom_making', 'TalkController@roommake');
-    Route::get('/talkroom/{talk}', 'TalkController@show');
     
-    Route::post('/talkroom_making_finished', 'TalkController@store_roomtitle');
-    Route::post('/user_setting_finished', 'PostsController@create');
-    //画像保存
-    Route::post('/image', 'PostsController@create');
+    //TalkController
+    Route::get('/talks/create', 'TalkController@create');
+    Route::get('/talks/{talk}', 'TalkController@show');
+    Route::post('/talks', 'TalkController@store');
+    Route::delete('/talks/{talk}', 'TalkController@delete');
     
+    //トークルーム検索
+    Route::get('/talk/search', 'TalkController@search');
+    Route::get('/talk/talkroom/{talk}', 'TalkController@show');
+    
+    // MessegeController
+    Route::post('/messages/{talk}', 'MessageController@store');
+    Route::get('/messages/{message}', 'MessageController@show');
+    Route::delete('/messages/{message}', 'MessageController@delete');
 });
     //いいね
     Route::post('posts/{post}/favorites', 'LikeController@store')->name('favorites');
     Route::post('posts/{post}/unfavorites', 'LikeController@destroy')->name('unfavorites');
    
-//   トークルーム検索
-    Route::get('/talk/search', 'TalkController@search');
-    Route::get('/talk/talkroom/{talk}', 'TalkController@show');
+    
+    
+    // profile設定画面へ
+    Route::get('/profile/setting', 'ProfileController@index');
+    
+    // profile登録
+    // Route::post('/profile/set', 'ProfileController@store');
+    Route::post('/profile/set/exists', 'ProfileController@change');
+    Route::post('/profile/set/unexists', 'ProfileController@store');
 
 //test
-    Route::get('/', 'MessageController@create');
-    Route::delete('/talkroom/{talk}', 'TalkController@delete');
+    //画像保存
+    Route::post('/image', 'PostsController@create');
+    // メッセージ削除「
     Route::delete('/talkroom/message/{message}', 'MessageController@delete');
     

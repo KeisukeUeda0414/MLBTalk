@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTalksTable extends Migration
+class CreateProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateTalksTable extends Migration
      */
     public function up()
     {
-        Schema::create('talks', function (Blueprint $table) {
+        Schema::create('profiles', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title', 30);
+            $table->timestamps();
+            $table->string('nickname', 15);
+            $table->string('introduction', 200)->nullable();
+            $table->string('icon')->nullable();
             $table->bigInteger('user_id')->unsigned(); 
             $table->foreign('user_id')
                   ->references('id')->on('users')
@@ -23,8 +26,7 @@ class CreateTalksTable extends Migration
             $table->bigInteger('team_id')->unsigned()->nullable(); 
             $table->foreign('team_id')
                   ->references('id')->on('teams')
-                  ->onDelete('cascade');
-            $table->timestamps();
+                  ->onDelete('cascade');            
         });
     }
 
@@ -35,6 +37,6 @@ class CreateTalksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('talks');
+        Schema::dropIfExists('profiles');
     }
 }

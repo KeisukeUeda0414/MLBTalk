@@ -15,18 +15,22 @@ class Message extends Model
     protected $fillable = [
         'body',
         'talk_id',
-        'title'
-        
+        'title',
+        'user_id',
+     
     ];
     
     public function likes(){
-    //likesテーブルとのリレーション
-    return $this->belongsToMany('App\Like');
+        //likesテーブルとのリレーション
+        return $this->belongsToMany('App\User','likes')->withTimestamps();
     }
     
-  public function users()
-    {
-        return $this->belongsToMany('App\User')->withTimestamps();
-    }
+ 
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+    
+    
 }
