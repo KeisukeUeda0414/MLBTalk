@@ -14,15 +14,14 @@
         
         <!--メッセージ-->
         <div class="fs-2">
-            
-            {{$messages->body}}
+            {{$reply->body}}
         </div>
         
-        
+  
+                                    
         <!--トークルームを削除（トーク作成者のみ表示）-->
-        @if($messages->user->id===$login_id)
           <!--Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -35,7 +34,8 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
                                     
-                                    <form action="/talks/{{$talk->id}}/messages/{{ $messages->id }}" id="form_{{ $messages->id }}" method="post" style="display:inline">
+                                    
+                                    <form action="/talks/{{$reply->message->talk->id}}/messages/{{ $reply->message->id }}/replies/{{$reply->id}}" id="form_{{ $reply->id }}" method="post" style="display:inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-primary">削除する</button>
@@ -47,14 +47,12 @@
                     
             <div>
                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            メッセージを削除
-                                        </button>
+                    メッセージを削除
+                </button>
                 
             </div>
         <h1 class="text-center sticky-top">
-        @else
-        
-        @endif
+       
          
         
         

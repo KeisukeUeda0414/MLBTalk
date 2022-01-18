@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Talk;
+use App\Reply;
 use App\Message;
 use App\Profile;
+use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TalkController extends Controller
 {
@@ -19,11 +22,9 @@ class TalkController extends Controller
     }
     
     //トークルームへ遷移
-    public function show(Request $request, Talk $talk,Profile $profile)
+    public function show(Request $request, Talk $talk,User $user)
     {   
-      
-   
-        return view('talks.show')->with(['talk' => $talk, 'messages' => $talk->getByTalk()]);
+        return view('talks.show')->with(['talk' => $talk,'user' => Auth::user()]);
     }
     
    

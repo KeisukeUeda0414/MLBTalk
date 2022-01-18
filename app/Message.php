@@ -21,15 +21,23 @@ class Message extends Model
     ];
     
     public function likes(){
-        //likesテーブルとのリレーション
+        //likesテーブルとの中間テーブルリレーション命名規則に則っていないので、第二引数にlikesを入れている
         return $this->belongsToMany('App\User','likes')->withTimestamps();
     }
     
- 
-
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+    
+    public function replies()   
+    {
+        return $this->hasMany('App\Reply');  
+    }
+    
+    public function users()
+    {
+        return $this->belongsToMany('App\User','likes')->withTimestamps();
     }
     
     

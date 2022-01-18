@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
-    public function user()   
-    {
-        return $this->belongsTo('App\User');  
-    } 
+    
     
     protected $fillable = [
         'nickname',
         'introduction',
-        'user_id'
+        'user_id',
+        'team_id',
+        'icon'
+        
     ];
     
     public function getByProfile(int $limit_count = 100)
@@ -33,7 +33,18 @@ class Profile extends Model
     }
     
     public function talk(){
-    return $this->belongsToMany('App\Talk');
-}
+        return $this->belongsToMany('App\Talk');
+    }
+    
+    public function team()
+    {
+        return $this->belongsTo('App\Team');
+    }
+    
+    public function user()   
+    {
+        return $this->belongsTo('App\User');  
+    } 
+   
     
 }
