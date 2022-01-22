@@ -12,7 +12,7 @@
     </head>
     
     <body>
-        <h1>ユーザー詳細設定</h1>
+        <h1>プロフィール設定</h1>
         
             @if($profile->where('user_id', Auth::id())->exists())
            
@@ -21,19 +21,19 @@
                     <!--ニックネーム入力-->
                     <div class="body_comment">
                         <div class="h2">ニックネーム</div>
-                        <textarea class="comment_input" name="profile[nickname]" placeholder="ニックネームを入力"></textarea><br></br>
+                        <textarea class="comment_input" name="profile[nickname]" placeholder="ニックネームを入力">{{Auth::user()->profile->nickname}}</textarea><br></br>
                     </div>
                     <!--自己紹介入力-->
                     <div class="body_comment">
                         <div class="h2">自己紹介</div>
-                        <textarea class="comment_input" name="profile[introduction]" placeholder="自己紹介を入力"></textarea><br></br>
+                        <textarea class="comment_input" style="height: 100px" name="profile[introduction]" placeholder="自己紹介を入力">{{Auth::user()->profile->introduction}}</textarea><br></br>
                     </div>
                     <!--お気に入りチーム入力-->
                     <div class="body_comment">
                         <!--セレクトボックス-->
                         <div class="h2">お気に入りチームを選択</div>
-                        <select name="profile[team_id]">
-                            <option value="">選択してください</option>
+                        <select name="profile[team_id]" required>
+                            <option value="{{Auth::user()->profile->team->id}}" selected>{{Auth::user()->profile->team->team_name}}</option>
                             @foreach ($teams as $team)
                                 <option value="{{$team->id}}">{{$team->team_name}}</option>
                             @endforeach
@@ -62,14 +62,16 @@
                     <!--自己紹介入力-->
                     <div class="body_comment">
                         <div class="h2">自己紹介</div>
-                        <textarea class="comment_input" name="profile[introduction]" placeholder="自己紹介を入力"></textarea><br></br>
+                        <textarea class="comment_input" style="height: 100px" name="profile[introduction]" placeholder="自己紹介を入力"></textarea><br></br>
                     </div>
+                    
+                    
               
                     <!--お気に入りチーム入力-->
                     <div>
                         <!--セレクトボックス-->
                         <div class="h2">お気に入りチームを選択</div>
-                        <select name="profile[team_id]">
+                        <select name="profile[team_id]" required>
                             <option value="">選択してください</option>
                             @foreach ($teams as $team)
                                 <option value="{{$team->id}}">{{$team->team_name}}</option>
@@ -98,8 +100,16 @@
                     alert("ニックネームを入力してください");
                     return false;
                 }
-                if(document.profile.elements['profile[introduction]'].value == "") {
-                    alert("自己紹介を入力してください");
+                if(document.profile.elements['profile[nickname]'].value.length >= "15") {
+                    alert("ニックネームは15文字以内です");
+                    return false;
+                }
+                // if(document.profile.elements['profile[introduction]'].value == "") {
+                //     alert("自己紹介を入力してください");
+                //     return false;
+                // }
+                if(document.profile.elements['profile[nickname]'].value.length >= "200") {
+                    alert("自己紹介は200文字以内です");
                     return false;
                 }
                 if(document.profile.elements['profile[team_id]'].value == "") {

@@ -24,10 +24,10 @@ class Talk extends Model
     }
     
     // トークルーム別にメッセージを振り分け
-    public function getByTalk(int $limit_count = 100)
-    {
-        return $this->messages()->with('talk')->orderBy('updated_at', 'DESC')->paginate($limit_count);
-    }
+    // public function getByTalk(int $limit_count = 100)
+    // {
+    //     return $this->messages()->with('talk')->orderBy('updated_at', 'DESC')->paginate($limit_count);
+    // }
     
    
     

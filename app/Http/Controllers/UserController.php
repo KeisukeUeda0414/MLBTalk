@@ -23,12 +23,15 @@ class UserController extends Controller
     
      //ホーム画面への遷移
     public function home(Talk $talk,User $user)
-    {   
-        $url = 'https://newsapi.org/v2/everything?q=bitcoin&apiKey='. config('newsapi.news_api_key');
-        // クライアントインスタンス生成
-        $client = new \GuzzleHttp\Client();
+    {  
         
-        // リクエスト送信
+        $team = Auth::user()->profile->team->team_jpname;
+        $d = now(); 
+        $now = $d->format('Y-m-d');
+        $month_ago = $d->subDay(30)->format('Y-m-d');
+        $url = 'https://newsapi.org/v2/everything?q='.$team.'+MLB&to='.$now.'&from='.$month_ago.'&sortBy=popularity&apiKey='. config('newsapi.news_api_key');
+ 
+        $client = new \GuzzleHttp\Client();
         $response = $client->request('GET',  $url);   
         $news = json_decode($response->getBody(), true);
         $articles = $news['articles'];

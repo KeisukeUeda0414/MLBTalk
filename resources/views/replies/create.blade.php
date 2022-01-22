@@ -31,7 +31,10 @@
                 if(document.reply.elements['reply[body]'].value == "") {
                     alert("メッセージを入力してください");
                     return false;
-                }
+                }else if (document.reply.elements['reply[body]'].value.length >= 300) {
+                    alert("一度に送信できるメッセージ300文字以内です");
+                   return false;
+                };
                 
             }
         </script>

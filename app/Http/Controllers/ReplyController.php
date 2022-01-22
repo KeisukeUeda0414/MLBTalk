@@ -8,13 +8,13 @@ use App\Talk;
 use App\Message;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ReplyRequest;
 
 class ReplyController extends Controller
 {
-    public function store(Request $request,Talk $talk, Message $message,Reply $reply)
+    public function store(ReplyRequest $request,Talk $talk, Message $message,Reply $reply)
     {
         $input = $request['reply'];
-        $reply->timestamps = false;  
         $input += ['message_id' => $message->id];
         $input += ['user_id' => $request->user()->id];
         $reply->fill($input)->save();

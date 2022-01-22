@@ -14,6 +14,7 @@ Auth::routes();
  
 Route::group(['middleware' => 'auth'], function(){
     
+    Route::get('/', 'UserController@home')->name('home');
     Route::get('/home', 'UserController@home')->name('home');
     // user詳細へ
     Route::get('/users/{user}', 'UserController@show');
@@ -45,13 +46,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('posts/{post}/favorites', 'LikeController@store')->name('favorites');
     Route::post('posts/{post}/unfavorites', 'LikeController@destroy')->name('unfavorites');
    
-    
-    
     // profile設定画面へ
     Route::get('/profile/setting', 'ProfileController@index');
-    
-    // profile登録
-    // Route::post('/profile/set', 'ProfileController@store');
     Route::post('/profile/store/change', 'ProfileController@change');
     Route::post('/profile/store/store', 'ProfileController@store');
 

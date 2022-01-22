@@ -8,6 +8,7 @@ use App\Reply;
 use App\Message;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\MessageRequest;
 
 class MessageController extends Controller
 {
@@ -17,12 +18,11 @@ class MessageController extends Controller
         return view('messages.show')->with(['messages' => $message,'login_id'=>$login_id,'talk' => $talk]);
     }
     
-    public function store(Request $request, Message $message,Talk $talk)
+    public function store(MessageRequest $request, Message $message,Talk $talk)
     {
         $input = $request['message'];
         $input += ['user_id' => $request->user()->id];
         $input += ['talk_id' => $talk->id];
-        
         $message->fill($input)->save();
         return redirect('/talks/'.$talk->id);
     }

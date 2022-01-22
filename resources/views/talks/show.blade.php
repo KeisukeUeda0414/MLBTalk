@@ -7,9 +7,17 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Posts</title>
+       
+        <style type="text/css">
+            .MLB {
+                width: 1%;
+                height: 100px;
+                object-fit: cover;}
+        </style>
+            
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-        <link type="text/css" rel="stylesheet" href="{{ mix('css/app.css') }}">
-     
+        
+
     </head>
     <body>
         
@@ -71,124 +79,125 @@
                 <!--アイコン-->
                 
                 <div class="d-flex justify-content-end">
-                    <div class=""><img class="rounded-circle" src="{{$user->profile->icon}}"></div>
+                    <div class=""><img class="MLB rounded-circle" src="{{$user->profile->icon}}"  width="100" height="100"></div>
                     
                     <div class="flex-column">
                         <!--メッセージ投稿者表示-->
                         <div class="">
-                            <a href="/users/{{$message->user->id}}">{{$message->user->profile->team->team_name}}ファンの{{$message->user->profile->nickname}}</a>
+                            
+                            <a href="/users/{{$message->user->id}}" style="color:{{$message->user->profile->team->team_color}};">{{$message->user->profile->team->team_jpname}}ファンの{{$message->user->profile->nickname}}</a>
                         </div>
                         <!--投稿時間-->
                         <div class="">{{$message->created_at}}</div>
                          <!--メッセージ-->
-                             <a class="fs-1" href='/talks/{{$talk->id}}/messages/{{$message->id}}'>{{$message->body}}</a>
-                                 <!--いいね-->
+                             <a class="fs-1 rounded" style="color:{{$message->user->profile->team->team_color}};" href='/talks/{{$talk->id}}/messages/{{$message->id}}'>{{$message->body}}</a>
+                                <!--いいね-->
                                 <div class="">
                                     @if($message->likes()->where('user_id', Auth::id())->exists())
-                                        <div class=>
+                                        <div class=" mb-2">
                                             <form action="{{ route('unfavorites', $message) }}" method="POST">
                                             @csrf
                                                 <input type="submit" value="&#xf004.{{ $message->likes()->count() }}" class="fas btn btn-danger">
                                             </form>
                                         </div>
                                     @else
-                                        <div class="">
+                                        <div class=" mb-2">
                                             <form action="{{ route('favorites', $message) }}" method="POST">
                                             @csrf
                                                 <input type="submit" value="&#xf004.{{ $message->likes()->count() }}" class="fas btn btn-success">
                                             </form>
                                         </div>
                                     @endif
-                                </div><br>
-                                 <a class="fs-5 btn btn-lg btn-info text-white" href='/talks/{{$talk->id}}/messages/{{$message->id}}/reply'> 返信する</a><br>
-                    
+                                </div>
+                                 <!--返信-->
+                                <div class="d-flex flex-column">
+                                    
+                                    @foreach($message->replies as $reply)
+                                   
+                                    <div class="d-flex flex-column">
+                                            <div>
+                                                <a href="/users/{{$reply->user->id}}" style="color:{{$reply->user->profile->team->team_color}};">{{$reply->user->profile->team->team_name}}ファンの{{$reply->user->profile->nickname}}</a>
+                                            </div>
+                                            <div class="">{{$reply->created_at}}</div>
+                                            <div>
+                                                @if($reply->user->id === Auth::id())
+                                                <!--自分の返信-->
+                                                <a href="/talks/{{$talk->id}}/messages/{{$message->id}}/replies/{{$reply->id}}" class="fs-2 rounded" style="color:{{$reply->user->profile->team->team_color}};">⇨{{$reply->body}}</a><br>
+                                                @else
+                                                <!--自分以外の返信-->
+                                                <div class="d-inline fs-2 rounded" style="color:{{$reply->user->profile->team->team_color}};">⇨{{$reply->body}}</div><br>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <br>
+                                </div>
+                                <a class="fs-5 btn btn-lg btn-primary text-white" href='/talks/{{$talk->id}}/messages/{{$message->id}}/reply'> 返信する</a><br>
+                                
                         </div>
 
                        </div>
                 </div>
                
                 <br>
-               <!--返信-->
-                <div class="d-flex flex-column">
-                    
-                    @foreach($message->replies as $reply)
-                   
-                    <div class="d-flex flex-row justify-content-end">
-                        <div class="">⇨<img class="rounded-circle" src="{{$reply->user->profile->icon}}"></div>
-                        <div class="d-flex flex-column">
-                            <div>
-                                <a href="/users/{{$reply->user->id}}">{{$reply->user->profile->team->team_name}}ファンの{{$reply->user->profile->nickname}}</a>
-                            </div>
-                           <div>
-                                @if($reply->user->id === Auth::id())
-                                <br><a href="/talks/{{$talk->id}}/messages/{{$message->id}}/replies/{{$reply->id}}" class="fs-2">{{$reply->body}}</a><br>
-                                @else
-                                <div class="fs-4">{{$reply->body}}</div><br>
-                                
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                    
-                </div>
+               
                 
             @else
             <!--自分以外-->
                 <div class="d-flex">
-                    <div class="text-start"><img class="rounded-circle" src="{{$message->user->profile->icon}}"></div>
+                    <div class="text-start"><img class="MLB rounded-circle" src="{{$message->user->profile->icon}}"  width="100" height="100"></div>
                     
                     <div class="flex-column">
                         <!--メッセージ投稿者表示-->
-                        <a href="/users/{{$message->user->id}}">{{$message->user->profile->team->team_name}}ファンの{{$message->user->profile->nickname}}</a>
+                        <a href="/users/{{$message->user->id}}" style="color:{{$message->user->profile->team->team_color}};">{{$message->user->profile->team->team_jpname}}ファンの{{$message->user->profile->nickname}}</a>
                         <!--投稿時間-->
                         <div class="">{{$message->created_at}}</div>
                         <!--メッセージ-->
-                        <div class="fs-2">{{$message->body}}</div>
+                        <div class="fs-2" style="color:{{$message->user->profile->team->team_color}};"><p class="d-inline rounded">{{$message->body}}</p></div>
                         <div  class="">
                         <!--いいね-->
                             @if($message->likes()->where('user_id', Auth::id())->exists())
-                                <div class="col-md-3">
+                                <div class="mb-2">
                                     <form action="{{ route('unfavorites', $message) }}" method="POST">
                                     @csrf
                                         <input type="submit" value="&#xf004.{{ $message->likes()->count() }}" class="fas btn btn-danger">
                                     </form>
                                 </div>
                             @else
-                                <div class="col-md-3">
+                                <div class="mb-2">
                                     <form action="{{ route('favorites', $message) }}" method="POST">
                                     @csrf
                                         <input type="submit" value="&#xf004.{{ $message->likes()->count() }}" class="fas btn btn-success">
                                     </form>
                                 </div>
                             @endif
+                        
+                        </div>
+                        <!--返信-->
+                        <div  class="d-flex flex-column">
+                            @foreach($message->replies as $reply)<div class="d-flex flex-column">
+                                    <div>
+                                        <a href="/users/{{$reply->user->id}}" style="color:{{$reply->user->profile->team->team_color}};">{{$reply->user->profile->team->team_name}}ファンの{{$reply->user->profile->nickname}}</a>
+                                    </div>
+                                    <div class="">{{$reply->created_at}}</div>
+                                    <div>
+                                        @if($reply->user->id === Auth::id())
+                                        <!--自分の返信-->
+                                        <a href="/talks/{{$talk->id}}/messages/{{$message->id}}/replies/{{$reply->id}}" class="fs-2 rounded" style="color:{{$reply->user->profile->team->team_color}};">⇨{{$reply->body}}</a><br>
+                                        @else
+                                        <!--自分以外の返信-->
+                                        <div class="d-inline fs-2 rounded" style="color:{{$reply->user->profile->team->team_color}};">⇨{{$reply->body}}</div><br>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
                             <br>
                         </div>
-                        <a class="fs-5 btn btn-lg btn-info text-white" href='/talks/{{$talk->id}}/messages/{{$message->id}}/reply'> 返信する</a><br>
+                        <a class="fs-5 btn btn-lg btn-primary text-white" href='/talks/{{$talk->id}}/messages/{{$message->id}}/reply'> 返信する</a>
+                        
                     </div>
                 </div>
-                <!--返信-->
-                <div  class="d-flex flex-column">
-                    @foreach($message->replies as $reply)
-                    <div class="d-flex flex-row">
-                        <div class="">⇨<img class="rounded-circle" src="{{$reply->user->profile->icon}}"></div>
-                        <div class="d-flex flex-column">
-                            <div>
-                                <a href="/users/{{$reply->user->id}}">{{$reply->user->profile->team->team_name}}ファンの{{$reply->user->profile->nickname}}</a>
-                            </div>
-                            <div>
-                                @if($reply->user->id === Auth::id())
-                                <br><a href="/talks/{{$talk->id}}/messages/{{$message->id}}/replies/{{$reply->id}}" class="fs-2">{{$reply->body}}</a><br>
-                                @else
-                                <div class="fs-4">{{$reply->body}}</div><br>
-                                
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                    
-                </div>
+                
                 
             @endif
             
@@ -205,9 +214,9 @@
             @csrf
             <!--コメント入力-->
             <div class="form-floating">
-                <textarea class="form-control fixed-bottom" id="floatingTextarea2" style="height: 100px" name="message[body]" placeholder="コメントを入力"></textarea>
-                 
+                <textarea class="form-control fixed-bottom" id="floatingTextarea2" style="height: 100px" name="message[body]" placeholder="300文字以内でメッセージを入力">{{ old('message.body') }}</textarea>
             </div>
+            <p class="body__error" style="color:red">{{ $errors->first('message.body') }}</p>
             <div class="text-start">
             <!--送信ボタン-->
             <input  class="btn btn-success fixed-bottom btn-lg" type="submit" value="送信"/>
@@ -221,6 +230,10 @@
                     alert("メッセージを入力してください");
                     return false;
                 }
+                else if (document.message.elements['message[body]'].value.length >= 300) {
+                    alert("一度に送信できるメッセージ300文字以内です");
+                   return false;
+                };
                 
             }
         </script>

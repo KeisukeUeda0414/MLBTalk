@@ -20,6 +20,7 @@ class CreateRepliedsTable extends Migration
             $table->foreign('message_id')
                   ->references('id')->on('messages')
                   ->onDelete('cascade');
+            $table->timestamps();
             $table->bigInteger('user_id')->unsigned(); 
             $table->foreign('user_id')
                   ->references('id')->on('users')

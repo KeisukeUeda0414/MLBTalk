@@ -20,18 +20,34 @@
             @csrf
             <!--トークルーム名入力-->
             <div class="body_comment">
-                <textarea class="comment_input" name="talkroom[title]" placeholder="トークルーム名を入力"></textarea>
+                <textarea class="comment_input" name="talk[title]" placeholder="トークルーム名を入力"></textarea>
             </div>
+            <!--お気に入りチーム入力-->
+            <div class="body_comment">
+                <!--セレクトボックス-->
+                <div class="fs-2">お気に入りチームを選択</div>
+                <select name="talk[team_id]" required>
+                    <option value="{{Auth::user()->profile->team->id}}" selected>{{Auth::user()->profile->team->team_name}}</option>
+                    @foreach ($teams as $team)
+                        <option value="{{$team->id}}">{{$team->team_name}}</option>
+                    @endforeach
+                </select>
+            </div><br>
+            
             <!--送信ボタン-->
             <input class="send_comment fs-3 p-2 bd-highlight btn btn-primary" type="submit" value="作成"/>
         </form>
         
         <script>
             function ShowAlart() {
-                if(document.talk.elements['talkroom[title]'].value == "") {
+                if(document.talk.elements['talk[title]'].value == "") {
                     alert("トークルーム名を入力してください");
                     return false;
                 }
+                else if (document.talk.elements['talk[title]'].value.length >= 15) {
+                    alert("トークルームのタイトルは15文字以内です");
+                   return false;
+                };
                 
             }
         </script>

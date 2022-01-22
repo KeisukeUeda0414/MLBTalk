@@ -40,7 +40,7 @@ class User extends Authenticatable
     // protected $teams = 'teams';
    
     //   いいね機能
-   public function likes()
+  public function messages()
     {
         return $this->belongsToMany('App\Message','likes')->withTimestamps();
     }
@@ -51,10 +51,10 @@ class User extends Authenticatable
         return $this->hasOne('App\Profile');
     }
     
-    public function messages()   
-    {
-        return $this->hasMany('App\Message','likes');  
-    }
+    // public function messages()   
+    // {
+    //     return $this->hasMany('App\Message','likes');  
+    // }
     public function talks()   
     {
         return $this->hasMany('App\Talk');  
